@@ -2,16 +2,13 @@ package com.review.backend.constants;
 
 public class RestURI {
 
-    public static final String common = "/api/ehospital";
-    public static final String getRequestData = "/getRequestData";
-    public static final String editRequestData = "/editRequestData";
-    public static final String addRequestData = "/addRequestData";
-    public static final String DeleteRequestData = "/deleteRequestData";
-    public static final String SearchDataByDate = "/searchDataByDate";
-    public static final String SearchDataByStatus = "/SearchDataByStatus";
-    public static final String SearchDataByDep = "/SearchDataByDep";
-    public static final String SearchDataByAny = "/SearchDataByAny";
-    public static final String addReportData = "/addReportData";
+    public static final String BASE_URL = "/review";
+    public static final String ADD_REVIEW = "/addReview";
+    public static final String UPDATE_REVIEW = "/updateReview";
+    public static final String DELETE_REVIEW = "/deleteReview";
+    public static final String GET_REVIEW_BY_ID = "/reviewById";
+    public static final String GET_ALL_REVIEW = "/getAllReviews";
+
 
 
 }

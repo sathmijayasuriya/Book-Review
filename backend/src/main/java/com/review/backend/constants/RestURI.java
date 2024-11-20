@@ -10,6 +10,9 @@ public class RestURI {
     public static final String GET_ALL_REVIEW = "/getAllReviews";
     public static final String  FILTER_BYDATE_RATING_TITLE = "/filterReviewsByRatingAndDate";
 
+    public static final String LOGIN_BASE_URL = "/auth";
+    public static final String SIGN_UP = "/signup";
+    public static final String LOGIN = "/login";
 
 
 }

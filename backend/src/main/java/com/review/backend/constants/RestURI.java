@@ -8,7 +8,7 @@ public class RestURI {
     public static final String DELETE_REVIEW = "/deleteReview/{id}";
     public static final String GET_REVIEW_BY_ID = "/reviewById/{id}";
     public static final String GET_ALL_REVIEW = "/getAllReviews";
-    public static final String  FILTER_BYDATE_RATING = "/filterReviewsByRatingAndDate";
+    public static final String  FILTER_BYDATE_RATING_TITLE = "/filterReviewsByRatingAndDate";
 
 
 

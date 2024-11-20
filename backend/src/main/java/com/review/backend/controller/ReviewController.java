@@ -13,8 +13,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Date;
-import java.util.List;
+//import java.util.List;
+import java.util.*;
+
 
 @CrossOrigin
 @RestController
@@ -68,6 +69,19 @@ public class ReviewController {
 //
 //        return ResponseEntity.ok(reviewService.filterReviewsByRatingAndDate(rating, dateAdded));
 //    }
+
+    @GetMapping(RestURI.FILTER_BYDATE_RATING_TITLE)
+            public ResponseEntity<List<ReviewResponseDTO>> filterReviewsByCriteria(
+            @RequestParam(required = false) Integer rating,
+            @RequestParam(required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date dateAdded,
+            @RequestParam(required = false) String title) {
+
+        // Log the filter criteria for debugging
+        logger.info("Filter request: rating={}, dateAdded={}, title={}", rating, dateAdded, title);
+
+        return ResponseEntity.ok(reviewService.filterReviewsByCriteria(rating, dateAdded, title));
+    }
+
 
 
 }

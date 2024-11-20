@@ -13,6 +13,7 @@ public interface ReviewDAO {
     int updateReview(Long id, Review review);
     int deleteReview(Long id);
 //    List<Review> filterReviewsByRatingAndDate(Integer rating, Date dateAdded) ;
+    List<Review> filterByCriteria(Integer rating, Date dateAdded, String title);
 
 
     }

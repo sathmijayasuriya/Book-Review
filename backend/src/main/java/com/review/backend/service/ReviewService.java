@@ -4,8 +4,8 @@ import com.review.backend.dto.ReviewDTO;
 import com.review.backend.dto.ReviewRequestDTO;
 import com.review.backend.dto.ReviewResponseDTO;
 
-import java.sql.Date;
-import java.util.List;
+import java.util.*;
+
 
 public interface ReviewService {
 
@@ -15,5 +15,6 @@ public interface ReviewService {
     void updateReview(Long id, ReviewRequestDTO reviewRequestDTO) ;
     void deleteReview(Long id) ;
 //    List<ReviewResponseDTO> filterReviewsByRatingAndDate(Integer rating, Date dateAdded) ;
+     List<ReviewResponseDTO> filterReviewsByCriteria(Integer rating, Date dateAdded, String title) ;
 
     }

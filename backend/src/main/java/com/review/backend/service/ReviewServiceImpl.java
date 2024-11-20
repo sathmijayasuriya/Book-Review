@@ -12,8 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.Date;
-import java.util.List;
+//import java.sql.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,6 +66,13 @@ public class ReviewServiceImpl implements ReviewService{
 //    }
 
 
+    public List<ReviewResponseDTO> filterReviewsByCriteria(Integer rating, Date dateAdded, String title) {
+        List<Review> reviews = reviewDAO.filterByCriteria(rating, dateAdded, title);
+        // Convert List<Review> to List<ReviewResponseDTO>
+        return reviews.stream()
+                .map(review -> modelMapper.map(review, ReviewResponseDTO.class))
+                .collect(Collectors.toList());
+    }
 
 
 }

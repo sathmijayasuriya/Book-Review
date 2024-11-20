@@ -2,14 +2,17 @@ package com.review.backend.dao;
 
 import com.review.backend.model.Review;
 
+import java.util.Date;
 import java.util.List;
 
 public interface ReviewDAO {
 
-    int addReview(Review review);
+    void addReview(Review review);
     List<Review> getAllReviews();
     Review getReviewById(Long id);
     int updateReview(Long id, Review review);
     int deleteReview(Long id);
+//    List<Review> filterReviewsByRatingAndDate(Integer rating, Date dateAdded) ;
+
 
     }

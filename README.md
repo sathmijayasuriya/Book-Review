@@ -36,7 +36,7 @@ To log in, use the following credentials:
 - **DELETE** `/reviews/deleteReview/{id}`: Delete a review by ID
 - **GET** `/reviews/reviewByuserid/{id}`: Get all reviews by a user ID
 - **GET** `/reviews/getAllReviews`: Get all reviews
-- **GET** `/reviews/filterReviewsByRatingAndDate`: Filter reviews by rating and date
+- **GET** `/reviews/filterReviewsByRatingAndDate`: Filter reviews by rating and date and book title
 - **GET** `/reviews/getBookNames`: Get all book titles
 
 ### Authentication Endpoints

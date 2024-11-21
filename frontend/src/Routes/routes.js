@@ -71,8 +71,8 @@ const Router = () => {
   return user ? (
     <RouterProvider router={privateRouter} />
   ) : (
-    // <RouterProvider router={authRouter} />
-    <RouterProvider router={privateRouter} />
+    <RouterProvider router={authRouter} />
+    // <RouterProvider router={privateRouter} />
 
   );
 };

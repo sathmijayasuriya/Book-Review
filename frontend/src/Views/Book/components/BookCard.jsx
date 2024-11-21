@@ -13,17 +13,17 @@ import ReviewUpdate from "./ReviewUpdate";
  export const BookCard = ({
    title,
    author,
-   description,
+   review_text,
    rating,
-   date,
-   reviewer,
+   date_added,
+  //  reviewer,
    isUpdate,
  }) => {
     const handleUpdate = (updatedReview) => {
       console.log("Final Updated Review:", updatedReview);
     };
    return (
-     <Card elevation={3} sx={{ borderRadius: 2 }}>
+     <Card elevation={3} sx={{ borderRadius: 2, width: 420, height: 220  }}>
        <CardContent>
          <Box
            sx={{
@@ -42,11 +42,11 @@ import ReviewUpdate from "./ReviewUpdate";
          </Box>
          <Rating name="read-only" value={rating} readOnly size="small" />
          <Typography variant="body2" color="text.secondary" mt={1}>
-           {description}
+           {review_text}
          </Typography>
          <Box mt={2}>
            <Typography variant="caption" color="info">
-             {reviewer} • {date}
+             {date_added} • {date_added}
            </Typography>
          </Box>
          {isUpdate && (
@@ -55,10 +55,9 @@ import ReviewUpdate from "./ReviewUpdate";
                existingReview={{
                  title,
                  author,
-                 description,
+                 review_text,
                  rating,
-                 date,
-                 reviewer,
+                 date_added,
                }}
                onUpdate={handleUpdate}
              />

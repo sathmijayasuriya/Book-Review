@@ -1,6 +1,4 @@
 
-
-
 export const signIn = async (payload) => {
   try {
     

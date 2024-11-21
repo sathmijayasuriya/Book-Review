@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
+import axios from "axios";
+import { getAllReviews } from "../../Configuration";
 import {
   Box,
   Grid2,
@@ -9,66 +11,111 @@ import {
 } from "@mui/material";
 import { BookCard } from "./components/BookCard";
 import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DateField } from '@mui/x-date-pickers/DateField';
 
 const Landing = () => {
     const [selectedRating, setSelectedRating] = useState(null);
     const [selectedDate, setSelectedDate] = useState(null);
-  const books = [
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-    {
-      title: "Harry Potter",
-      author: "J.K. Rowling",
-      description:
-        "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
-      rating: 4,
-      date: "4 Feb 2022",
-      reviewer: "John Doe",
-    },
-  ];
+    const [searchText, setSearchText] = useState("");
+    const [filteredBooks, setFilteredBooks] = useState([]);
+
+  //   const books = [
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "Enjoyed the storyline, but the pacing was slow.  Emotionally intense and unforgettable.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  //   {
+  //     title: "Harry Potter",
+  //     author: "J.K. Rowling",
+  //     review_text:
+  //       "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.",
+  //     rating: 4,
+  //     date_added: "4 Feb 2022",
+  //     reviewer: "John Doe",
+  //   },
+  // ];
+  const [books, setBooks] = useState([]);
+  useEffect(() => {
+    // Fetch all reviews
+    const fetchReviews = async () => {
+        try {
+            const reviews = await getAllReviews();
+            setBooks(reviews); // Update state with fetched reviews
+        } catch (error) {
+            console.error("Failed to fetch reviews:", error);
+        }
+    };
+
+    fetchReviews();
+}, []);
+
+useEffect(() => {
+  fetchFilteredReviews();
+}, [selectedRating, selectedDate, searchText]);
+
+  // Function to fetch filtered reviews
+  const fetchFilteredReviews = async () => {
+    try {
+        // Build query parameters
+        const params = new URLSearchParams();
+        if (selectedRating) params.append("rating", selectedRating);
+        if (selectedDate) params.append("dateAdded", selectedDate.toISOString().slice(0, 10)); // Ensures format is yyyy-MM-dd
+        if (searchText) params.append("title", searchText);
+
+        // Call the backend API
+        const response = await axios.get(
+            `http://localhost:9998/reviews/filterReviewsByRatingAndDate`,
+            { params }
+        );
+
+        setBooks(response.data); // Update books with the filtered results
+    } catch (error) {
+        console.error("Failed to fetch filtered reviews:", error);
+    }
+};
+
   return (
     <>
       <Box>
@@ -84,6 +131,9 @@ const Landing = () => {
             alignItems: "center",
             color: "#fff",
             textAlign: "center",
+            position: "relative", // Ensure it's positioned correctly within its parent
+            width: "100vw", // Use viewport width to ensure it spans the entire width of the screen
+        
           }}
         >
           <Typography variant="h3" fontWeight="bold">
@@ -104,10 +154,12 @@ const Landing = () => {
               fullWidth
               placeholder="What do you want to read next?"
               variant="outlined"
+              value={searchText}
+              onChange={(e) => setSearchText(e.target.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    {/* <SearchIcon /> */}
+                    {/* Search Icon can go here */}
                   </InputAdornment>
                 ),
               }}
@@ -134,15 +186,15 @@ const Landing = () => {
         </Box>
 
         {/* Book Cards Section */}
-        <Box sx={{ p: 3 }}>
-          <Grid2 container spacing={2}>
-            {books.map((book, index) => (
-              <Grid2 size={3} key={index}>
-                <BookCard {...book} />
-              </Grid2>
-            ))}
-          </Grid2>
-        </Box>
+        <Box sx={{ p: 4 }}>
+                <Grid2 container spacing={2}>
+                    {books.map((book, index) => (
+                        <Grid2 size={3} key={index}>
+                            <BookCard {...book} />
+                        </Grid2>
+                    ))}
+                </Grid2>
+            </Box>
       </Box>
     </>
   );

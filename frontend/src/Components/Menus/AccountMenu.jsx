@@ -41,7 +41,7 @@ export default function AccountMenu() {
             aria-expanded={open ? "true" : undefined}
           >
             <Avatar
-              alt={user?.displayName}
+              alt={user?.fullName}
               src={user?.photoURL}
               sx={{ width: 32, height: 32 }}
             />

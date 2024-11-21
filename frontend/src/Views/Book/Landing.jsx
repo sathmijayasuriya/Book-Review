@@ -1,6 +1,5 @@
 import React, { useState ,useEffect} from "react";
 import axios from "axios";
-import { getAllReviews } from "../../Configuration";
 import {
   Box,
   Grid2,
@@ -13,6 +12,7 @@ import { BookCard } from "./components/BookCard";
 import { DatePicker } from "@mui/x-date-pickers";
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DateField } from '@mui/x-date-pickers/DateField';
+import { getAllReviews } from "../../services/BookService";
 
 const Landing = () => {
     const [selectedRating, setSelectedRating] = useState(null);

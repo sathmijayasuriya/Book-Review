@@ -5,9 +5,18 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Box, Rating, Select, MenuItem, FormControl, InputLabel } from "@mui/material";
+import {
+  Box,
+  Rating,
+  Select,
+  MenuItem,
+  FormControl,
+  InputLabel,
+} from "@mui/material";
 import axios from "axios";
-import Configuration from "../../../Configuration";
+import { Configuration } from "../../../Configuration";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 export default function ReviewCreate() {
   const [open, setOpen] = React.useState(false);
@@ -16,12 +25,16 @@ export default function ReviewCreate() {
   const [bookAuthor, setBookAuthor] = React.useState("");
   const [reviewText, setReviewText] = React.useState("");
   const [bookList, setBookList] = React.useState([]);
+  const { user } = useSelector((state) => state.auth);
+  const navigate = useNavigate();
 
   // Fetch all book titles from the API when the component mounts
   React.useEffect(() => {
     const fetchBookTitles = async () => {
       try {
-        const response = await axios.get(`${Configuration.BASE_URL}/getBookNames`);
+        const response = await axios.get(
+          `${Configuration.BASE_URL}reviews/getBookNames`
+        );
         setBookList(response.data); // Assuming response.data is an array of books
       } catch (error) {
         console.error("Error fetching book titles:", error);
@@ -31,28 +44,51 @@ export default function ReviewCreate() {
     fetchBookTitles();
   }, []);
   const handleClickOpen = () => {
+    if (!user) {
+      navigate("/auth/sign-in");
+      return;
+    }
     setOpen(true);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setBookTitle("");
+    setReviewText("");
+    setBookAuthor("");
+    setRating(0);
   };
-   // Function to handle review submission
-   const handleSubmit = async (event) => {
+
+  // Function to handle review submission
+  const handleSubmit = async (event) => {
     event.preventDefault();
+
+    if (!bookTitle || !bookAuthor || rating === 0 || !reviewText) {
+      console.error("All fields are required.");
+      return; // Ensure all fields are filled
+    }
+
     const reviewData = {
+      user_id: user.id,
+      book_id: bookList.find((book) => book.title === bookTitle)?.id, // Map selected book title to its ID
       title: bookTitle,
       author: bookAuthor,
-      review_text: reviewText,
       rating: rating,
+      review_text: reviewText,
+      date_added: new Date(),
     };
 
+    console.log("Review Data to Submit:", reviewData);
+
     try {
-      const response = await axios.post(`${Configuration.BASE_URL}/addReview`, reviewData);
+      const response = await axios.post(
+        `${Configuration.BASE_URL}reviews/addReview`,
+        reviewData
+      );
       console.log("Review added successfully:", response.data);
       setOpen(false); // Close dialog after submission
     } catch (error) {
-      console.error("Error adding review:", error);
+      console.error("Error adding review:", error.response?.data || error.message);
     }
   };
 
@@ -64,22 +100,29 @@ export default function ReviewCreate() {
       <Dialog
         open={open}
         onClose={handleClose}
-        PaperProps={{
-          component: "form",
-          onSubmit: (event) => {
-            event.preventDefault();
-            const formData = new FormData(event.currentTarget);
-            const formJson = Object.fromEntries(formData.entries());
-            const email = formJson.email;
-            console.log(email);
-            handleClose();
-          },
-        }}
+        // PaperProps={{
+        //   // component: "form",
+        //   // onSubmit: (event) => {
+        //   //   event.preventDefault();
+        //   //   const formData = new FormData(event.currentTarget);
+        //   //   const formJson = Object.fromEntries(formData.entries());
+        //   //   const email = formJson.email;
+        //   //   console.log(email);
+        //   //   handleClose();
+        //   },
+        // }
+     // }
+     PaperProps={{
+      component: "form",
+      onSubmit: handleSubmit, // Attach your existing handleSubmit function here
+    }}
+  
+
       >
         <DialogTitle>Add a Review</DialogTitle>
         <DialogContent>
-           {/* Dropdown for Book Title */}
-           <FormControl fullWidth margin="dense">
+          {/* Dropdown for Book Title */}
+          <FormControl fullWidth margin="dense">
             <InputLabel>Book Title</InputLabel>
             <Select
               value={bookTitle}
@@ -122,8 +165,9 @@ export default function ReviewCreate() {
             <Rating
               name="rating"
               value={rating}
-              onChange={(event, newValue) => setRating(newValue)}
-            />
+              required
+              onChange={(event, newValue) => setRating(Number(newValue))} // Convert to a number
+              />
             <Box sx={{ ml: 2 }}>
               {rating > 0 ? `${rating} Stars` : "No Rating"}
             </Box>

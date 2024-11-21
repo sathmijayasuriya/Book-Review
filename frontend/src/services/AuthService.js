@@ -1,13 +1,21 @@
+import axios from "axios";
+import { Configuration } from "../Configuration";
 
 export const signIn = async (payload) => {
   try {
+    const response = await axios.post(
+      `${Configuration.BASE_URL}auth/login`,
+      payload
+    );
+    console.log("~ signIn ~ response:", response)
     
-   let userDetails = {
-     email: "test@gmail.com",
-     displayName: "test user",
-     phoneNumber: "0775632342",
-   };
-    return userDetails;
+  //  let userDetails = {
+  //    email: response.data.email,
+  //    id: response.data.id,
+  //    fullName: response.data.fullName,
+  //    phoneNumber: response.data.phoneNumber,
+  //  };
+    return response.data;
   } catch (error) {
     console.error(error.message);
     throw error;
@@ -16,12 +24,19 @@ export const signIn = async (payload) => {
 
 export const signUp = async (payload) => {
   try {
-    let userDetails = {
-      email: payload.email,
-      displayName: payload.fullName,
-      phoneNumber: payload.phoneNumber,
-    };
-    return userDetails;
+    const response = await axios.post(
+      `${Configuration.BASE_URL}auth/signup`,
+      payload
+    );
+    console.log("~ signIn ~ response:", response);
+
+    //  let userDetails = {
+    //    email: response.data.email,
+    //    id: response.data.id,
+    //    fullName: response.data.fullName,
+    //    phoneNumber: response.data.phoneNumber,
+    //  };
+    return response.data;
   } catch (error) {
     console.error(error.message);
     throw error;

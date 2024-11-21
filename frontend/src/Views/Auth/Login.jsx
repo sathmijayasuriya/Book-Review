@@ -49,13 +49,6 @@ const Login = () => {
           <Typography variant="subtitle1" sx={{ textAlign: "center", mb: 2 }}>
             Glad to see you again 👋
           </Typography>
-          <Button
-            variant="contained"
-            fullWidth
-            sx={{ mb: 2 }}
-          >
-            Continue with Google
-          </Button>
           <TextField
             label="Email"
             variant="outlined"

@@ -14,6 +14,7 @@ public interface ReviewDAO {
     int deleteReview(Long id);
 //    List<Review> filterReviewsByRatingAndDate(Integer rating, Date dateAdded) ;
     List<Review> filterByCriteria(Integer rating, Date dateAdded, String title);
+    List<Review> getReviewsByUser(Long id);
 
 
     }

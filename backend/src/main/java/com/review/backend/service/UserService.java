@@ -23,20 +23,33 @@ public class UserService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public boolean signUp(UserDTO userDTO) {
+    public User signUp(UserDTO userDTO) {
+        // Hash the password
         String hashedPassword = passwordEncoder.encode(userDTO.getPassword());
         userDTO.setPassword(hashedPassword);
 
+        // Save the user in the database
         int rowsAffected = userDAO.save(userDTO);
-        return rowsAffected > 0;
+
+        if (rowsAffected > 0) {
+            // Fetch the saved user details
+            return userDAO.findByEmail(userDTO.getEmail());
+        } else {
+            return null;
+        }
     }
 
-    public boolean authenticate(String email, String password) {
+    public User authenticate(String email, String password) {
         try {
             User user = userDAO.findByEmail(email);
-            return passwordEncoder.matches(password, user.getPassword());
+
+            // Check if the password matches
+            if (passwordEncoder.matches(password, user.getPassword())) {
+                return user; // Return the authenticated user
+            }
         } catch (Exception e) {
-            return false;
+            // Handle exception (e.g., user not found)
         }
+        return null;
     }
 }

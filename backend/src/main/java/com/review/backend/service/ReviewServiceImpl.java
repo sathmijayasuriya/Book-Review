@@ -42,11 +42,18 @@ public class ReviewServiceImpl implements ReviewService{
                 .collect(Collectors.toList());
     }
 
-    // Get Review by ID
-    public ReviewResponseDTO getReviewById(Long id) {
-        Review review = reviewDAO.getReviewById(id);
-        return modelMapper.map(review, ReviewResponseDTO.class);
+//    public ReviewResponseDTO getReviewById(Long id) {
+//        Review review = reviewDAO.getReviewById(id);
+//        return modelMapper.map(review, ReviewResponseDTO.class);
+//    }
+    public List<ReviewResponseDTO> getReviewsByUser(Long id) {
+        List<Review> reviews = reviewDAO.getReviewsByUser(id);
+        return reviews.stream()
+                .map(review -> modelMapper.map(review, ReviewResponseDTO.class))
+                .collect(Collectors.toList());
     }
+
+
     // Update Review
     public void updateReview(Long id, ReviewRequestDTO reviewRequestDTO) {
         Review review = modelMapper.map(reviewRequestDTO, Review.class);

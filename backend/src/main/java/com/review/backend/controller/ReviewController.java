@@ -41,9 +41,9 @@ public class ReviewController {
     }
 
     // Get Review by ID
-    @GetMapping(RestURI.GET_REVIEW_BY_ID)
-    public ResponseEntity<ReviewResponseDTO> getReviewById(@PathVariable Long id) {
-        return ResponseEntity.ok(reviewService.getReviewById(id));
+    @GetMapping(RestURI.GET_REVIEWS_BY_USER)
+    public ResponseEntity<List<ReviewResponseDTO>> getReviewsByUser(@PathVariable Long id) {
+        return ResponseEntity.ok(reviewService.getReviewsByUser(id));
     }
 
     // Update Review

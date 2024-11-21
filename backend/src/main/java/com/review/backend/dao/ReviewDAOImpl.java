@@ -81,10 +81,17 @@ public class ReviewDAOImpl implements ReviewDAO{
         return jdbcTemplate.queryForObject(sql, new ReviewRowMapper(), id);
     }
 
+    @Override
+    public List<Review> getReviewsByUser(Long id) {
+        String sql = "SELECT * FROM reviews WHERE user_id = ?";
+        return jdbcTemplate.query(sql, new ReviewRowMapper(), id);
+    }
+
+
     // Update Review
     @Override
     public int updateReview(Long id, Review review) {
-        String sql = "UPDATE reviews SET title = ?, author = ?, rating = ?, review_text = ? WHERE id = ?";
+        String sql = "UPDATE reviews SET  title = ?, author = ?, rating = ?, review_text = ? WHERE id = ?";
         return jdbcTemplate.update(sql, review.getTitle(), review.getAuthor(), review.getRating(),
                 review.getReview_text(), id);
     }

@@ -6,7 +6,7 @@ public class RestURI {
     public static final String ADD_REVIEW = "/addReview";
     public static final String UPDATE_REVIEW = "/updateReview/{id}";
     public static final String DELETE_REVIEW = "/deleteReview/{id}";
-    public static final String GET_REVIEW_BY_ID = "/reviewById/{id}";
+    public static final String GET_REVIEWS_BY_USER = "/reviewByuserid/{id}";
     public static final String GET_ALL_REVIEW = "/getAllReviewss";
     public static final String  FILTER_BYDATE_RATING_TITLE = "/filterReviewsByRatingAndDate";
     public static final String  GET_BOOK_NAMES = "/getBookNames";

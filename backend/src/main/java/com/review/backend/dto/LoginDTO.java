@@ -1,22 +1,15 @@
-package com.review.backend.model;
+package com.review.backend.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.*;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
-public class User {
-    private long id;
-    private String fullName;
+public class LoginDTO {
     private String email;
-    private String phoneNumber;
     private String password;
-//    private Date createdAt;
 }
-

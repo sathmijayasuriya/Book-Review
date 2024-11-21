@@ -18,29 +18,28 @@ public class UserDAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    // Method to find a user by username
-    public User findByUsername(String username) {
-        String sql = "SELECT * FROM users WHERE username = ?";
-        return jdbcTemplate.queryForObject(sql, new Object[]{username}, new UserRowMapper());
+    public User findByEmail(String email) {
+        String sql = "SELECT * FROM users WHERE email = ?";
+        return jdbcTemplate.queryForObject(sql, new Object[]{email}, new UserRowMapper());
     }
 
-    // Method to save a new user to the database
     public int save(UserDTO userDTO) {
-        String sql = "INSERT INTO users (username, password, email) VALUES (?, ?, ?)";
-        return jdbcTemplate.update(sql, userDTO.getUsername(), userDTO.getPassword(), userDTO.getEmail());
+        String sql = "INSERT INTO users (full_name, email, phone_number, password) VALUES (?, ?, ?, ?)";
+        return jdbcTemplate.update(sql, userDTO.getFullName(), userDTO.getEmail(), userDTO.getPhoneNumber(), userDTO.getPassword());
     }
 
-    // RowMapper for mapping result set to User
     private static class UserRowMapper implements RowMapper<User> {
         @Override
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
             user.setId(rs.getLong("id"));
-            user.setUsername(rs.getString("username"));
-            user.setPassword(rs.getString("password"));
+            user.setFullName(rs.getString("full_name"));
             user.setEmail(rs.getString("email"));
-            user.setCreatedAt(rs.getTimestamp("created_at"));
+            user.setPhoneNumber(rs.getString("phone_number"));
+            user.setPassword(rs.getString("password"));
+//            user.setCreatedAt(rs.getTimestamp("created_at"));
             return user;
         }
     }
 }
+

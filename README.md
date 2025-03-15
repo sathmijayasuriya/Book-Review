@@ -1,7 +1,7 @@
 
 # Book-Review
 
-"Book Review" application that allows users to browse, add, edit, and delete book reviews. Users can submit their thoughts on books they’ve read, including ratings and comments. The application provides a platform for users to share their opinions and discover new books through community reviews.
+Book Review application that allows users to browse, add, edit, and delete book reviews. Users can submit their thoughts on books they’ve read, including ratings and comments. The application provides a platform for users to share their opinions and discover new books through community reviews.
 
 ## Frontend Setup (React)
 1. Navigate to the frontend project directory.
